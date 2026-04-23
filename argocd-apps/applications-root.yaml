@@ -1,0 +1,51 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: applications
+  namespace: argocd
+  labels:
+    app: applications
+    project: applications
+  annotations:
+    argocd.argoproj.io/sync-options: CreateNamespace=true
+    argocd.argoproj.io/sync-wave: "-1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/daniloinfo/argocd-lab-monitoring.git
+    targetRevision: HEAD
+    path: apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncWave: "-1"
+  ignoreDifferences:
+  - group: apps
+    kind: Namespace
+    name: applications
+  revisionHistoryLimit: 5
+  info:
+    - name: Applications Namespace
+      value: Root application managing all Java demo applications
+    - name: Purpose
+      value: GitOps management of Quarkus and Spring Boot applications
+    - name: Applications
+      value: quarkus-demo, springboot-demo
+    - name: Repository
+      value: https://github.com/daniloinfo/argocd-lab-monitoring.git/tree/main/apps
+    - name: Documentation
+      value: https://github.com/daniloinfo/argocd-lab-monitoring/blob/main/README.md

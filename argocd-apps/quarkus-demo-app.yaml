@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quarkus-demo
+  namespace: argocd
+  labels:
+    app: quarkus-demo
+    project: applications
+  annotations:
+    argocd.argoproj.io/sync-options: CreateNamespace=true
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/daniloinfo/argocd-lab-monitoring.git
+    targetRevision: HEAD
+    path: apps/quarkus-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncWave: "0"
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: quarkus-demo
+    jsonPointers:
+    - path: /spec/replicas
+  - group: apps
+    kind: Service
+    name: quarkus-demo-service
+    jsonPointers:
+    - path: /spec/ports
+  revisionHistoryLimit: 3
+  info:
+    - name: Quarkus Demo Application
+      value: Spring Boot 2.7.18 demo application with monitoring
+    - name: Framework
+      value: Spring Boot 2.7.18
+    - name: Java Version
+      value: 11
+    - name: Monitoring
+      value: Prometheus, Loki, Tempo, Pyroscope, OpenTelemetry
+    - name: Repository
+      value: https://github.com/daniloinfo/argocd-lab-monitoring.git/tree/main/apps/quarkus-app
+    - name: Documentation
+      value: https://github.com/daniloinfo/argocd-lab-monitoring/blob/main/apps/quarkus-app/README.md

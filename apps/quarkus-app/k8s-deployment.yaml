@@ -18,7 +18,7 @@ spec:
         # Prometheus metrics
         prometheus.io/scrape: "true"
         prometheus.io/port: "8080"
-        prometheus.io/path: "/metrics"
+        prometheus.io/path: "/actuator/prometheus"
         
         # Pyroscope profiling
         profiles.grafana.com/memory.scrape: "true"
@@ -78,7 +78,7 @@ metadata:
   annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "8080"
-    prometheus.io/path: "/metrics"
+    prometheus.io/path: "/actuator/prometheus"
 spec:
   selector:
     app: quarkus-demo

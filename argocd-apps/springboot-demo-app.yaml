@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: springboot-demo
+  namespace: argocd
+  labels:
+    app: springboot-demo
+    project: applications
+  annotations:
+    argocd.argoproj.io/sync-options: CreateNamespace=true
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/daniloinfo/argocd-lab-monitoring.git
+    targetRevision: HEAD
+    path: apps/springboot-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: applications
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+    syncWave: "1"
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    name: springboot-demo
+    jsonPointers:
+    - path: /spec/replicas
+  - group: apps
+    kind: Service
+    name: springboot-demo-service
+    jsonPointers:
+    - path: /spec/ports
+  revisionHistoryLimit: 3
+  info:
+    - name: Spring Boot Demo Application
+      value: Spring Boot 3.2.0 demo application with monitoring
+    - name: Framework
+      value: Spring Boot 3.2.0
+    - name: Java Version
+      value: 17
+    - name: Monitoring
+      value: Prometheus, Loki, Tempo, Pyroscope, OpenTelemetry
+    - name: Repository
+      value: https://github.com/daniloinfo/argocd-lab-monitoring.git/tree/main/apps/springboot-app
+    - name: Documentation
+      value: https://github.com/daniloinfo/argocd-lab-monitoring/blob/main/apps/springboot-app/README.md
