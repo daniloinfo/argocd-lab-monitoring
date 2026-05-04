@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: springboot-demo
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
+      percentiles:
+        http.server.requests: 0.5,0.9,0.95,0.99
+
+# OpenTelemetry configuration
+opentelemetry:
+  exporter:
+    otlp:
+      endpoint: http://opentelemetry-collector.monitoring.svc.cluster.local:4317
+  resource:
+    attributes:
+      service.name: springboot-demo
+      service.version: 1.0.0
+
+logging:
+  level:
+    com.example: INFO
+    org.springframework: INFO
+    io.opentelemetry: DEBUG
