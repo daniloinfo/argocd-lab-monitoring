@@ -88,9 +88,9 @@
                     "datasource": "${DS_PROMETHEUS}",
                     "editorMode": "code",
                     "expr": "sum(kube_deployment_status_replicas_available{namespace=~\"$namespace\", deployment=~\"$deployment\"}) / (sum(kube_deployment_spec_replicas{namespace=~\"$namespace\", deployment=~\"$deployment\"}) > 0) * 100",
-                    "instant": false,
+                    "instant": true,
                     "legendFormat": "Cluster Availability",
-                    "range": true,
+                    "range": false,
                     "refId": "A",
                     "step": "1m"
                 }
@@ -152,9 +152,9 @@
                     "datasource": "${DS_PROMETHEUS}",
                     "editorMode": "code",
                     "expr": "sum(kube_pod_status_phase{namespace=~\"$namespace\", phase=~\"Pending|Failed|Unknown\"}) or vector(0)",
-                    "instant": false,
+                    "instant": true,
                     "legendFormat": "Pods Quebrados/Presos",
-                    "range": true,
+                    "range": false,
                     "refId": "A",
                     "step": "1m"
                 }
