@@ -52,6 +52,7 @@ windsurf-project/
 - **README.md**: Main project documentation with setup instructions
 - **AGENTS.md**: Technology stack and development guidelines
 - **INSTALL.md**: Detailed step-by-step installation guide
+- **Dashboards**: Whenever a new Dashboard is created in `Dashboards/`, you MUST update `Dashboards/README.md` and create a new detailed documentation file in `Dashboards/docs/` explaining its functionalities, queries, and usage.
 - Keep documentation up-to-date with code changes
 
 ### 4. Port Mapping Standards
