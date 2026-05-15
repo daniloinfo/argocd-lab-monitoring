@@ -554,10 +554,7 @@
                 "multi": true,
                 "name": "namespace",
                 "options": [],
-                "query": {
-                    "query": "label_values(kube_deployment_status_replicas_available, namespace)",
-                    "refId": "StandardVariableQuery"
-                },
+                "query": "label_values(kube_deployment_status_replicas_available, namespace)",
                 "refresh": 1,
                 "regex": "",
                 "regexApplyTo": "value",
@@ -578,10 +575,7 @@
                 "multi": true,
                 "name": "deployment",
                 "options": [],
-                "query": {
-                    "query": "label_values(kube_deployment_status_replicas_available{namespace=~\"$namespace\"}, deployment)",
-                    "refId": "StandardVariableQuery"
-                },
+                "query": "label_values(kube_deployment_status_replicas_available{namespace=~\"$namespace\"}, deployment)",
                 "refresh": 1,
                 "regex": "",
                 "regexApplyTo": "value",
@@ -602,10 +596,7 @@
                 "multi": true,
                 "name": "node",
                 "options": [],
-                "query": {
-                    "query": "label_values(kube_node_info, node)",
-                    "refId": "StandardVariableQuery"
-                },
+                "query": "label_values(kube_node_info, node)",
                 "refresh": 1,
                 "regex": "",
                 "regexApplyTo": "value",
