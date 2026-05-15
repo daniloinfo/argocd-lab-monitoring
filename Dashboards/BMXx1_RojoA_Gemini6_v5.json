@@ -87,7 +87,7 @@
                 {
                     "datasource": "${DS_PROMETHEUS}",
                     "editorMode": "code",
-                    "expr": "sum(kube_deployment_status_replicas_available{namespace=~\"$namespace\", deployment=~\"$deployment\"}) / (sum(kube_deployment_spec_replicas{namespace=~\"$namespace\", deployment=~\"$deployment\"}) > 0) * 100",
+                    "expr": "(sum(kube_deployment_status_replicas_available{namespace=~\"$namespace\", deployment=~\"$deployment\"}) / (sum(kube_deployment_spec_replicas{namespace=~\"$namespace\", deployment=~\"$deployment\"}) > 0) * 100) or vector(100)",
                     "instant": true,
                     "legendFormat": "Cluster Availability",
                     "range": false,
@@ -508,6 +508,7 @@
     "templating": {
         "list": [
             {
+                "allValue": ".*",
                 "current": {
                     "text": "All",
                     "value": "$__all"
@@ -526,6 +527,7 @@
                 "type": "query"
             },
             {
+                "allValue": ".*",
                 "current": {
                     "text": "All",
                     "value": "$__all"
@@ -544,6 +546,7 @@
                 "type": "query"
             },
             {
+                "allValue": ".*",
                 "current": {
                     "text": "All",
                     "value": "$__all"
